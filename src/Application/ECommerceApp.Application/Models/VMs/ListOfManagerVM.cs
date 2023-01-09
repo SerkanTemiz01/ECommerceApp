@@ -12,6 +12,8 @@ namespace ECommerceApp.Application.Models.VMs
         public Guid ID { get; set; } 
         public string Name { get; set; }
         public string Surname { get; set; }
+
         public Roles Roles { get; set; }
+        public string ImagePath { get; set; }
     }
 }

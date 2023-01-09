@@ -35,6 +35,27 @@ namespace ECommerceApp.Presentation.Areas.Admin.Controllers
         {
             return View(await _adminService.GetManagers());
         }
-        
+        [HttpGet]
+        public async Task<IActionResult> UpdateManager(Guid id)
+        {
+            var updateManager = await _adminService.GetManager(id);
+            return View(updateManager);
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateManager(UpdateManagerDTO updateManagerDTO)
+        {
+           if(ModelState.IsValid)
+            {
+                await _adminService.UpdateManager(updateManagerDTO);
+                return RedirectToAction(nameof(ListOfManagers));
+            }
+           return View(updateManagerDTO);
+        }
+
+        public async Task<IActionResult> DeleteManager(Guid id)
+        {
+            await _adminService.DeleteMAnager(id);
+            return RedirectToAction(nameof(ListOfManagers));
+        }
     }
 }
