@@ -12,6 +12,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th>IMAGE</th>
             <th>
                 Name
             </th>
@@ -28,6 +29,9 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                <img src="@item.ImagePath" height="100" width="100">
+            </td>
+            <td>
                 @item.Name
             </td>
             <td>
@@ -37,9 +41,8 @@
                 @item.Roles
             </td>
             <td>
-            @*    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+                    <a asp-action="UpdateManager" asp-area="Admin" asp-controller="Manager" asp-route-id="@item.ID" class="btn btn-success">Edit</a>
+                    <a asp-action="DeleteManager" asp-area="Admin" asp-controller="Manager" asp-route-id="@item.ID" class="btn btn-danger">Delete</a>
             </td>
         </tr>
 }

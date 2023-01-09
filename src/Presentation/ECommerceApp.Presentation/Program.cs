@@ -38,7 +38,7 @@ SeedData.Seed(app);
 
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+app.UseStaticFiles();//wwwroot
 
 app.UseRouting();
 

@@ -16,6 +16,8 @@ namespace ECommerceApp.Application.Services.AdminService
 
         Task<List<ListOfManagerVM>> GetManagers();
 
-        
+         Task<UpdateManagerDTO> GetManager(Guid id);
+        Task UpdateManager(UpdateManagerDTO updateManagerDTO);
+        Task DeleteMAnager(Guid id);
     }
 }
