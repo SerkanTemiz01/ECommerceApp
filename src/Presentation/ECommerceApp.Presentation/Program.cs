@@ -3,6 +3,9 @@ using Autofac.Extensions.DependencyInjection;
 using ECommerceApp.Application.IoC;
 using ECommerceApp.Infastructure.Context;
 using ECommerceApp.Presentation.Models.SeedDataModel;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +19,33 @@ builder.Services.AddDbContext<ECommerceAppDbContext>(_ =>
     _.UseSqlServer(builder.Configuration.GetConnectionString("ConnString"));
 });
 
+//Filter yapýyoruz ve tek login controllerýna izin vereceðiz.
+builder.Services.AddMvc(config =>
+{
+	var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+	config.Filters.Add(new AuthorizeFilter(policy));
+});
+
+
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
+{
+    x.LoginPath = "/Login/Login";
+    x.Cookie = new CookieBuilder
+    {
+        Name = "EcommerceCookie",
+        SecurePolicy = CookieSecurePolicy.Always,
+        HttpOnly = true //Client tarafýnda cookie görünür oluyor
+    };
+    x.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+    x.SlidingExpiration = false;
+    x.Cookie.MaxAge = x.ExpireTimeSpan;
+});
+
+builder.Services.AddSession(x =>
+{
+    x.IdleTimeout = TimeSpan.FromMinutes(5);
+});
 
 builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
@@ -36,6 +66,7 @@ if (!app.Environment.IsDevelopment())
 ///Program.cs çalýþtýrýldýðýnda veri tabanýnda veri yoksa veri atama saðlayabileceðimiz bir SeedData static sýnýfý oluþturuldu.
 SeedData.Seed(app);
 
+app.UseSession();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();//wwwroot
@@ -52,6 +83,6 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Login}/{action=Login}/{id?}");
 
 app.Run();
