@@ -1,12 +1,13 @@
 ﻿@model ECommerceApp.Application.Models.DTOs.AddManagerDTO
 
+
 @{
     ViewData["Title"] = "AddManager";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+<h1 class="text-center text-uppercase">Create Manager</h1>
 
-<h1>AddManager</h1>
 
-<h4>AddManagerDTO</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -50,9 +51,7 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

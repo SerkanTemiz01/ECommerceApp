@@ -12,7 +12,7 @@ namespace ECommerceApp.Application.Models.DTOs
 {
     public class AddManagerDTO
     {
-        public Guid ID { get; set; }=Guid.NewGuid();
+        public Guid ID =>Guid.NewGuid();
 
         [Required(ErrorMessage ="Cannot be Empty!!!")]
         [MaxLength(25,ErrorMessage ="You cannot enter more than 25 chracters")]
@@ -21,8 +21,8 @@ namespace ECommerceApp.Application.Models.DTOs
         [Required(ErrorMessage = "Can not be Empty!!!")]
         [MaxLength(50, ErrorMessage = "You cannot enter more than 50 chracters")]
         public string Surname { get; set; }
-        public Roles Roles { get; set; } = Roles.Manager;
-        public DateTime CreateDate { get; set; }=DateTime.Now;
+        public Roles Roles => Roles.Manager;
+        public DateTime CreateDate => DateTime.Now;
         public Status Status => Status.Active;
 
         public string EmailAddress { get; set; }
