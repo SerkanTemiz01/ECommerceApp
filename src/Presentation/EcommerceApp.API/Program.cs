@@ -38,7 +38,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//Statik dosyalarý çalýþtýrmak için kullanýlýr.
 app.UseStaticFiles();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
