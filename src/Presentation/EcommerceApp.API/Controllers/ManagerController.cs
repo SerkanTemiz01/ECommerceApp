@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EcommerceApp.API.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ManagerController : ControllerBase
     {
@@ -17,6 +17,7 @@ namespace EcommerceApp.API.Controllers
         }
         [HttpGet("Get")]
 
+        [HttpGet("GetManagers")]
         public async Task<ActionResult<List<ListOfManagerVM>>> GetAllManagers()
         {
             var managers = await _adminService.GetManagers();
@@ -58,7 +59,9 @@ namespace EcommerceApp.API.Controllers
             }
         }
         [HttpPost]
-        public async Task<ActionResult> CreateManager([FromForm]AddManagerDTO addManagerDTO)
+        [Route("PostManager")]
+        [Consumes("application/x-www-form-urlencoded")]
+        public async Task<ActionResult> CreateManager(AddManagerDTO addManagerDTO)
         {
             await _adminService.CreateManager(addManagerDTO);
             //try

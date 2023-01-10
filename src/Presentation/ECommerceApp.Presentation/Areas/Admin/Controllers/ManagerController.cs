@@ -1,6 +1,10 @@
 ﻿using ECommerceApp.Application.Models.DTOs;
+using ECommerceApp.Application.Models.VMs;
 using ECommerceApp.Application.Services.AdminService;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Text;
 
 namespace ECommerceApp.Presentation.Areas.Admin.Controllers
 {
@@ -23,17 +27,61 @@ namespace ECommerceApp.Presentation.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> AddManager(AddManagerDTO addManagerDTO)
         {
-            if(ModelState.IsValid)
+            //if(ModelState.IsValid)
+            //{
+            //    await _adminService.CreateManager(addManagerDTO);
+            //    return RedirectToAction(nameof(ListOfManagers));
+            //}
+
+            //return View(addManagerDTO);
+
+            using (var client = new HttpClient())
             {
-                await _adminService.CreateManager(addManagerDTO);
-                return RedirectToAction(nameof(ListOfManagers));
+                
+                client.BaseAddress = new Uri("https://localhost:7230/");//Api'nin senin localinde bulunan adresini ya da server adressi
+                var responseTask = client.PostAsJsonAsync<AddManagerDTO>("api/Manager/PostManager", addManagerDTO);
+               
+                responseTask.Wait();
+                var resultTask = responseTask.Result;
+
+               
+                if (resultTask.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(ListOfManagers));
+                }
+                else
+                {  
+                    return BadRequest();
+                }
             }
-         
-            return View(addManagerDTO);
         }
         public async Task<IActionResult> ListOfManagers()
         {
-            return View(await _adminService.GetManagers());
+            //return View(await _adminService.GetManagers());
+            using(var client=new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://localhost:7230/");//Api'nin senin localinde bulunan adresini ya da server adressi
+                var responseTask = client.GetAsync("api/Manager/GetManagers");
+                responseTask.Wait();
+                var resultTask = responseTask.Result;
+
+               
+                if(responseTask.IsCompletedSuccessfully)
+                {
+                    var readTask = resultTask.Content.ReadAsStringAsync();
+                    readTask.Wait();
+
+                    var readData = JsonConvert.DeserializeObject<List<ListOfManagerVM>>(readTask.Result);
+
+                    return View(readData);
+                }
+                else
+                {
+                    ViewBag.EmptyList = "List in not fount";
+                    return View(new List<ListOfManagerVM>());
+                }
+            }
+           
         }
         [HttpGet]
         public async Task<IActionResult> UpdateManager(Guid id)
