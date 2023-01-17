@@ -14,3 +14,12 @@
 
 
 ![image](https://user-images.githubusercontent.com/115589345/213009487-07e7acbd-d991-4265-bee4-64cc7cc4c736.png)
+
+
+### There are API and MVC in this project.I've used Onion Architecture 
+
+![image](https://user-images.githubusercontent.com/115589345/213010274-ee47a213-ea27-4961-87e1-f03585f128b2.png)
+
+#### I take data from View in MVC and make a request to API to post this data and add database. System works like that.
+![image](https://user-images.githubusercontent.com/115589345/213011023-0c88cfe6-125a-431c-91ed-cb42405a1208.png)
+
