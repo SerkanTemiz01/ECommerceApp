@@ -26,28 +26,12 @@ namespace ECommerceApp.Application.Services.AdminService
             _employeeRepo = employeeRepo;
         }
 
-        public async Task CreateManager(AddManagerDTO addManagerDTO)
+        public async Task CreateManager(ApiAddManagerDTO apiAddManagerDTO)
         {
-            var addEmployee=_mapper.Map<Employee>(addManagerDTO);
-            if(addEmployee.UploadPath!= null) 
-            {
-                using var image = Image.Load(addManagerDTO.UploadPath.OpenReadStream());
+            var addEmployee=_mapper.Map<Employee>(apiAddManagerDTO);
+			await _employeeRepo.Create(addEmployee);
 
-                image.Mutate(x=>x.Resize(600,560)); //Resim boyutu ayarladık;
-
-                Guid guid= Guid.NewGuid();
-                image.Save($"wwwroot/images/{guid}.jpg");
-
-                addEmployee.ImagePath = $"/images/{guid}.jpg";
-                await _employeeRepo.Create(addEmployee);
-            }
-            else
-            {
-                addEmployee.ImagePath = $"/images/default.jpeg";
-                await _employeeRepo.Create(addEmployee);
-            }
-            
-        }
+		}
 
         public async Task<List<ListOfManagerVM>> GetManagers()
         {
@@ -108,5 +92,27 @@ namespace ECommerceApp.Application.Services.AdminService
 
             await _employeeRepo.Delete(model);
         }
+
+        public async Task<ApiAddManagerDTO> GetApiManagerDTO(AddManagerDTO addManagerDTO)
+        {
+            var apiAddManagerDTO= _mapper.Map<ApiAddManagerDTO>(addManagerDTO);
+			if (addManagerDTO.UploadPath != null)
+			{
+				var stream = addManagerDTO.UploadPath.OpenReadStream();
+				using var image = Image.Load(stream);
+
+				image.Mutate(x => x.Resize(600, 560)); //Resim boyutu ayarladık;
+
+				Guid guid = Guid.NewGuid();
+				image.Save($"wwwroot/images/{guid}.jpg");
+
+				apiAddManagerDTO.ImagePath = $"/images/{guid}.jpg";				
+			}
+			else
+			{
+				apiAddManagerDTO.ImagePath = $"/images/default.jpeg";
+			}
+            return apiAddManagerDTO;
+		}
     }
 }

@@ -30,7 +30,7 @@ namespace ECommerceApp.Application.Models.DTOs
 
         [BirthDateExtension(ErrorMessage="\r\nThe age of the employee must be over 18")]
         public DateTime BirthDate { get; set; }
- 
+
 
         public string? ImagePath { get; set; }
 

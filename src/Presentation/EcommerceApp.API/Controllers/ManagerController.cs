@@ -31,7 +31,7 @@ namespace EcommerceApp.API.Controllers
             }
         }
         [HttpGet("{id}")]
-        public async Task<ActionResult<UpdateManagerDTO>> GetManager([FromRoute]Guid id)
+        public async Task<ActionResult<UpdateManagerDTO>> GetManager([FromRoute] Guid id)
         {
             var manager = await _adminService.GetManager(id);
             if (manager == null)
@@ -47,7 +47,7 @@ namespace EcommerceApp.API.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<UpdateManagerDTO>> DeleteManager([FromRoute] Guid id)
         {
-             
+
             if (id == Guid.Empty)
             {
                 return NotFound();
@@ -60,20 +60,15 @@ namespace EcommerceApp.API.Controllers
         }
         [HttpPost]
         [Route("PostManager")]
-        [Consumes("application/x-www-form-urlencoded")]
-        public async Task<ActionResult> CreateManager(AddManagerDTO addManagerDTO)
+        public async Task<ActionResult> CreateManager(ApiAddManagerDTO apiAddManagerDTO)
         {
-            await _adminService.CreateManager(addManagerDTO);
-            //try
-            //{
-            //   // addManagerDTO.UploadPath = formFile;
-            //    await _adminService.CreateManager(addManagerDTO);
-            //}
-            //catch (Exception)
-            //{
-            //    return BadRequest();
-            //}
-            return Ok(addManagerDTO);
+            if(ModelState.IsValid) 
+            {
+				await _adminService.CreateManager(apiAddManagerDTO);
+                return Ok(apiAddManagerDTO);
+			}
+            else     
+            return BadRequest(ModelState);
         }
     }
 }

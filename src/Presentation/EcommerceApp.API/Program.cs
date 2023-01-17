@@ -4,13 +4,26 @@ using ECommerceApp.Application.IoC;
 using ECommerceApp.Infastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Autofac.Core;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-
+builder.Services.AddMvc(options =>
+{
+    options.AllowEmptyInputInBodyModelBinding = true;
+    foreach (var formatter in options.InputFormatters)
+    {
+        if (formatter.GetType() == typeof(SystemTextJsonInputFormatter))
+            ((SystemTextJsonInputFormatter)formatter).SupportedMediaTypes.Add(
+            Microsoft.Net.Http.Headers.MediaTypeHeaderValue.Parse("text/plain"));
+    }
+}).AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+});
 
 //Veri tabanýna baðlamak için Context atama yaptýðýmýz kod parçasýdýr.
 builder.Services.AddDbContext<ECommerceAppDbContext>(_ =>

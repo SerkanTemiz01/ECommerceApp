@@ -4,7 +4,18 @@ using ECommerceApp.Application.Services.AdminService;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Net.Http;
+using System;
 using System.Text;
+using System.Net.Http.Headers;
+using System.Security.Policy;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
+using Cake.Core.IO;
+using System.IO;
+using Microsoft.AspNetCore.Razor.TagHelpers;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace ECommerceApp.Presentation.Areas.Admin.Controllers
 {
@@ -12,9 +23,13 @@ namespace ECommerceApp.Presentation.Areas.Admin.Controllers
     public class ManagerController : Controller
     {
         private readonly IAdminService _adminService;
+
+
         public ManagerController(IAdminService adminService)
         {
             _adminService = adminService;
+            
+           
         }
         public IActionResult Index()
         {
@@ -25,36 +40,34 @@ namespace ECommerceApp.Presentation.Areas.Admin.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> AddManager(AddManagerDTO addManagerDTO)
+        public async Task<IActionResult> AddManager([FromForm] AddManagerDTO addManagerDTO)
         {
-            //if(ModelState.IsValid)
-            //{
-            //    await _adminService.CreateManager(addManagerDTO);
-            //    return RedirectToAction(nameof(ListOfManagers));
-            //}
+			if (ModelState.IsValid)
+			{
+                var apiAddManagerDTO = await _adminService.GetApiManagerDTO(addManagerDTO);
+				using (var client = new HttpClient())
+				{
+					client.BaseAddress = new Uri("https://localhost:7230/");
 
-            //return View(addManagerDTO);
+					var responseTask =await client.PostAsJsonAsync<ApiAddManagerDTO>("api/Manager/PostManager", apiAddManagerDTO);
 
-            using (var client = new HttpClient())
-            {
-                
-                client.BaseAddress = new Uri("https://localhost:7230/");//Api'nin senin localinde bulunan adresini ya da server adressi
-                var responseTask = client.PostAsJsonAsync<AddManagerDTO>("api/Manager/PostManager", addManagerDTO);
-               
-                responseTask.Wait();
-                var resultTask = responseTask.Result;
+					if (responseTask.IsSuccessStatusCode)
+					{
+						return RedirectToAction(nameof(ListOfManagers));
+					}
+					else
+					{
+						return BadRequest();
+					}
+				}
+			}
+			else
+			{
+				return BadRequest();
+			}
 
-               
-                if (resultTask.IsSuccessStatusCode)
-                {
-                    return RedirectToAction(nameof(ListOfManagers));
-                }
-                else
-                {  
-                    return BadRequest();
-                }
-            }
-        }
+
+		}
         public async Task<IActionResult> ListOfManagers()
         {
             //return View(await _adminService.GetManagers());

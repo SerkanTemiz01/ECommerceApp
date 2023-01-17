@@ -31,6 +31,7 @@ namespace ECommerceApp.Application.IoC
             builder.RegisterType<EmployeeRepo>().As<IEmployeeRepo>().InstancePerLifetimeScope();
             builder.RegisterType<AdminService>().As<IAdminService>().InstancePerLifetimeScope();
             builder.RegisterType<LoginService>().As<ILoginService>().InstancePerLifetimeScope();
+           
 
 
             builder.Register(c =>
