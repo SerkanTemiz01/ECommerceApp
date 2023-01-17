@@ -8,7 +8,7 @@
 
 ## If you have admin email and password, you can access admin controller.
 
-##This page show List of Managers. Admin add,delete and update managers and manager's info. I use session and Authorazation in this poject.
+### This page show List of Managers. Admin add,delete and update managers and manager's info. I use session and Authorazation in this poject.
 
 ![image](https://user-images.githubusercontent.com/115589345/213009221-6104a6c1-25d6-4bb6-9c4b-94d9dac56d46.png)
 
