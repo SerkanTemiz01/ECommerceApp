@@ -13,11 +13,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Application\ECommerceApp.Application\ECommerceApp.Application.csproj" />
-    <ProjectReference Include="..\ECommerceApp.Presentation\ECommerceApp.Presentation.csproj" />
+    <ProjectReference Include="..\ECommerceApp.Presentation\ECommerceApp.MVC.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\upload\" />
   </ItemGroup>
 
 </Project>

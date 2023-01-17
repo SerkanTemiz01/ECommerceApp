@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerceApp.Domain", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerceApp.Infastructure", "src\Infastructure\ECommerceApp.Infastructure\ECommerceApp.Infastructure.csproj", "{341EF792-3C05-434D-A0B7-D4EE75325D60}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerceApp.Presentation", "src\Presentation\ECommerceApp.Presentation\ECommerceApp.Presentation.csproj", "{26ACDA7F-58D6-4E50-BB59-9E95EEE648DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ECommerceApp.MVC", "src\Presentation\ECommerceApp.Presentation\ECommerceApp.MVC.csproj", "{26ACDA7F-58D6-4E50-BB59-9E95EEE648DC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EcommerceApp.API", "src\Presentation\EcommerceApp.API\EcommerceApp.API.csproj", "{E219B248-A835-4431-AA94-624E424E785B}"
 EndProject

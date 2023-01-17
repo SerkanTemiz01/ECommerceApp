@@ -12,12 +12,14 @@ namespace ECommerceApp.Application.Services.AdminService
 {
     public interface IAdminService
     {
-        Task CreateManager(AddManagerDTO addManagerDTO);
+        Task CreateManager(ApiAddManagerDTO apiAddManagerDTO);
 
         Task<List<ListOfManagerVM>> GetManagers();
 
          Task<UpdateManagerDTO> GetManager(Guid id);
         Task UpdateManager(UpdateManagerDTO updateManagerDTO);
         Task DeleteMAnager(Guid id);
-    }
+        Task<ApiAddManagerDTO> GetApiManagerDTO(AddManagerDTO addManagerDTO);
+
+	}
 }
