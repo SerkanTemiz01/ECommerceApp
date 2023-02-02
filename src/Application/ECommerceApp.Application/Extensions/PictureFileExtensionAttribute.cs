@@ -19,7 +19,7 @@ namespace ECommerceApp.Application.Extensions
 
                 string[] extensions = { "jpg", "jpeg", "png" };
 
-                bool result = extensions.Any(x => x.EndsWith(x));
+                bool result = extensions.Any(x => extension.EndsWith(x));
 
                 if (!result) 
                 {
